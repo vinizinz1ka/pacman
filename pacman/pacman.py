@@ -1,7 +1,10 @@
+import requests
 import copy
 from board import boards
 import pygame
 import math
+
+url = 'http://localhost:5000/incluir/pontuacao_alcancada'
 
 pygame.init()
 
