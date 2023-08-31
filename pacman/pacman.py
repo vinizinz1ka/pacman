@@ -4,7 +4,11 @@ from board import boards
 import pygame
 import math
 import os
+from classes import *
+from config import *
 url = 'http://localhost:5000/incluir/Resultado'
+
+
 
 pygame.init()
 
@@ -1178,8 +1182,14 @@ while run:
                 game_won = False
 
             if event.key == pygame.K_s:
-                dados = {"pontuacao_alcancada":score}
-                enviar_dados = requests.post(url, json=dados)
+                #dados = {"pontuacao_alcancada":score}
+                #enviar_dados = requests.post(url, json=dados)
+                
+                with app.app_context():
+                    r = Resultado(pontuacao_alcancada = score)
+                    db.session.add(r)
+                    db.session.commit()
+                
                 exit()
                 pygame.quit()
                 
