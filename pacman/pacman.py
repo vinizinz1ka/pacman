@@ -3,8 +3,8 @@ import copy
 from board import boards
 import pygame
 import math
-
-url = 'http://localhost:5000/incluir/pontuacao_alcancada'
+import os
+url = 'http://localhost:5000/incluir/Resultado'
 
 pygame.init()
 
@@ -665,12 +665,12 @@ def draw_misc():
     if game_over:
         pygame.draw.rect(screen, 'white', [50, 200, 800, 300],0, 10)
         pygame.draw.rect(screen, 'dark gray', [70, 220, 760, 260], 0, 10)
-        gameover_text = font.render('Derrota! Pressione espaço para reiniciar!', True, 'red')
+        gameover_text = font.render('Derrota! Pressione espaço para reiniciar! S para salvar seu score', True, 'red')
         screen.blit(gameover_text, (100, 300))
     if game_won:
         pygame.draw.rect(screen, 'white', [50, 200, 800, 300],0, 10)
         pygame.draw.rect(screen, 'dark gray', [70, 220, 760, 260], 0, 10)
-        gameover_text = font.render('Vitória! Pressione espaço para reiniciar!', True, 'green')
+        gameover_text = font.render('Vitória! Pressione espaço para reiniciar! S para salvar seu score', True, 'green')
         screen.blit(gameover_text, (100, 300))
 
 
@@ -1133,55 +1133,56 @@ while run:
         eaten_ghost[3] = True
         score += (2 ** eaten_ghost.count(True)) * 100
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    direction_command = 0
-                if event.key == pygame.K_LEFT:
-                    direction_command = 1
-                if event.key == pygame.K_UP:
-                    direction_command = 2
-                if event.key == pygame.K_DOWN:
-                    direction_command = 3
-                if event.key == pygame.K_SPACE and (game_over or game_won):
-                    powerup = False
-                    power_counter = 0
-                    lives -= 1
-                    startup_counter = 0
-                    player_x = 450
-                    player_y = 663
-                    direction = 0
-                    direction_command = 0
-                    blinky_x = 56
-                    blinky_y = 58
-                    blinky_direction = 0
-                    inky_x = 440
-                    inky_y = 388
-                    inky_direction = 2
-                    pinky_x = 440
-                    pinky_y = 438
-                    pinky_direction = 2
-                    clyde_x = 440
-                    clyde_y = 438
-                    clyde_direction = 2
-                    eaten_ghost = [False, False, False, False]
-                    blinky_dead = False
-                    inky_dead = False
-                    clyde_dead = False
-                    pinky_dead = False
-                    score = 0
-                    lives = 3
-                    level = copy.deepcopy(boards)
-                    game_over = False
-                    game_won = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                direction_command = 0
+            if event.key == pygame.K_LEFT:
+                direction_command = 1
+            if event.key == pygame.K_UP:
+                direction_command = 2
+            if event.key == pygame.K_DOWN:
+                direction_command = 3
+            if event.key == pygame.K_SPACE and (game_over or game_won):
+                powerup = False
+                power_counter = 0
+                lives -= 1
+                startup_counter = 0
+                player_x = 450
+                player_y = 663
+                direction = 0
+                direction_command = 0
+                blinky_x = 56
+                blinky_y = 58
+                blinky_direction = 0
+                inky_x = 440
+                inky_y = 388
+                inky_direction = 2
+                pinky_x = 440
+                pinky_y = 438
+                pinky_direction = 2
+                clyde_x = 440
+                clyde_y = 438
+                clyde_direction = 2
+                eaten_ghost = [False, False, False, False]
+                blinky_dead = False
+                inky_dead = False
+                clyde_dead = False
+                pinky_dead = False
+                score = 0
+                lives = 3
+                level = copy.deepcopy(boards)
+                game_over = False
+                game_won = False
 
             if event.key == pygame.K_s:
-                    dados = {"pontuacao_alcancada", score}
-                    enviar_dados = requests.post(url, json=dados)
-                    pygame.quit()
-                    
+                dados = {"pontuacao_alcancada":score}
+                enviar_dados = requests.post(url, json=dados)
+                exit()
+                pygame.quit()
+                
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT and direction_command == 0:
                 direction_command = direction

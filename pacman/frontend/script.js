@@ -4,7 +4,7 @@ $(function (){
     var ip = "localhost";
 
     $.ajax({
-        url: "http://"+ip+":5000/listar/Score",
+        url: "http://"+ip+":5000/listar/Resultado",
         method: "GET",
         dataType: "json",
         success: listar,
@@ -19,7 +19,7 @@ $(function (){
 
                 var linha = "<tr>" +
                     "<td>" + d.id + "</td>" + 
-                    "<td>" + d.pontuação + "</td>" + 
+                    "<td>" + d.pontuacao_alcancada + "</td>" + 
                     "</tr>";
 
                     $("#dados").append(linha);
