@@ -2,6 +2,7 @@ table {
     border-collapse: collapse;
     width: 50%;
     margin: auto;
+    color:aliceblue
   }
   
   th, td {
@@ -15,8 +16,12 @@ table {
   }
 h1{
     text-align: center;
+    color:blanchedalmond  
 }
 
-body {
-  background-color: bisque;
+#bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
